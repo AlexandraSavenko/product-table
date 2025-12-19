@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
-import type { Product } from "./types/products";
-import { fetchProducts } from "./api/products.api";
-import ProductsTable from "./components/ProductTable/ProductsTable";
+import ProductsTable from "../components/ProductTable/ProductsTable"
+import type { Product } from "../types/products"
 
-function App() {
+const ProductsPage = () => {
 const [allProducts, setAllProducts] = useState<Product[]>([]);
 const [visibleProducts, setVisibleProducts] = useState<Product[]>([])
 const [selectedBrands, setSelectedBrands] = useState<string[]>([])
@@ -16,12 +14,15 @@ const [selectedOrderValue, setSelectedOrderValue] = useState<string[]>([])
     setVisibleProducts(data.data)})
     
   }, [])
+
   return (
     <>
-      Product-table
-      <ProductsTable products={visibleProducts}/>
+    <h1>Products page</h1>
+      <ProductsTable/>
     </>
   )
 }
 
-export default App
+export default ProductsPage
+
+console.log("Hello")
