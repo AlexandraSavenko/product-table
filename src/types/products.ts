@@ -12,3 +12,5 @@ export interface Product {
     colour_name: string | null;
   }[];
 }
+
+export type GroupBy = "brand" | "category" | "type" | null

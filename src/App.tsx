@@ -1,27 +1,29 @@
 import { useEffect, useState } from "react";
-import type { Product } from "./types/products";
+import type { GroupBy, Product } from "./types/products";
 import { fetchProducts } from "./api/products.api";
 import ProductsTable from "./components/ProductTable/ProductsTable";
 
 function App() {
-const [allProducts, setAllProducts] = useState<Product[]>([]);
-const [visibleProducts, setVisibleProducts] = useState<Product[]>([])
-const [selectedBrands, setSelectedBrands] = useState<string[]>([])
-const [selectedTag, setSelectedTag] = useState<string[]>([])
-const [selectedOrderValue, setSelectedOrderValue] = useState<string[]>([])
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [visibleProducts, setVisibleProducts] = useState<Product[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  const [groupBy, setGroupBy] = useState<GroupBy>(null)
+
   useEffect(() => {
-    fetchProducts().then(data => {
-      console.log("App data from fetchProducts", data.data)
+    fetchProducts().then((data) => {
       setAllProducts(data.data);
-    setVisibleProducts(data.data)})
-    
-  }, [])
+      setVisibleProducts(data.data);
+    });
+  }, []);
   return (
     <>
       Product-table
-      <ProductsTable products={visibleProducts}/>
+
+      <ProductsTable products={visibleProducts} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

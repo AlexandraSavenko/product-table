@@ -6,6 +6,5 @@ export const fetchProducts = async (params?: {
 }) => {
 
   const data = await axios.get("http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline", {params});
-  console.log(data)
   return data;
 };
