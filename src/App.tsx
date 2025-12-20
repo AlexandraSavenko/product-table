@@ -14,8 +14,8 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [brands, setBrands] = useState<{value: string}[]>([]);
   const [tags, setTags] = useState<{value: string}[]>([])
-  const [selectedBrands, setSelectedBrands] = useState<string>("");
-  const [selectedTags, setSelectedTags] = useState<string>("");
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const [groupBy, setGroupBy] = useState<GroupBy>(null);
   useEffect(() => {
@@ -33,18 +33,29 @@ function App() {
     }
     loadProducts()
   }, []);
-useEffect(() => {console.log("Selected Tag", selectedTags); console.log("selectedBrand", selectedBrands)}, [selectedBrands, selectedTags])
-const visibleProducts = useMemo(() => { return groupeProductList(allProducts, groupBy)}, [allProducts, groupBy])
   useEffect(() => {
     if (!allProducts.length) return;
+
     const brandsResult = getUniqueOptions(allProducts, "brand");
     const tagsResult = getUniqueArrayOptions(allProducts, "tag_list");
     setBrands(brandsResult);
     setTags(tagsResult)
   }, [allProducts]);
+const visibleProducts = useMemo(() => { let result = [...allProducts]
+  result = groupeProductList(allProducts, groupBy)
+  if(selectedBrands.length){
+    result = result.filter(item => selectedBrands.includes(item.brand))
+  }
+  if(selectedTags.length){
+    result = result.filter(item => item.tag_list?.some(tag => selectedTags.includes(tag)))
+    return result;
+  }
+}, [allProducts, groupBy, selectedBrands, selectedTags])
+  
   return (
     <>
     {loading && <Loader/>}
+    {error && <p>{error}</p> }
       Product-table
       <ProductFilters groupBy={groupBy} setGroupBy={setGroupBy} brandList={brands} tagList={tags} setSelectedBrands={setSelectedBrands} setSelectedTags={setSelectedTags} />
       <ProductsTable products={visibleProducts} />
