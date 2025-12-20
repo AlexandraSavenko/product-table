@@ -7,6 +7,8 @@ import ProductFilters from "./components/ProductFilters/ProductFilters";
 import { groupeProductList } from "./utils/groupeProductList";
 import Loader from "./components/Loader/Loader";
 import { getUniqueArrayOptions } from "./utils/getUniqueArrayOptions";
+import { Layout } from 'antd';
+const { Content } = Layout;
 
 function App() {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
@@ -53,13 +55,15 @@ const visibleProducts = useMemo(() => { let result = [...allProducts]
 }, [allProducts, groupBy, selectedBrands, selectedTags])
   
   return (
-    <>
-    {loading && <Loader/>}
+    <Layout>
+      <Content style={{ padding: 20 }}>
+       {loading && <Loader/>}
     {error && <p>{error}</p> }
       Product-table
       <ProductFilters groupBy={groupBy} setGroupBy={setGroupBy} brandList={brands} tagList={tags} setSelectedBrands={setSelectedBrands} setSelectedTags={setSelectedTags} />
-      <ProductsTable products={visibleProducts} />
-    </>
+      <ProductsTable products={visibleProducts} /> 
+      </Content>
+    </Layout>
   );
 }
 
