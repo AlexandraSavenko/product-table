@@ -13,4 +13,10 @@ export interface Product {
   }[];
 }
 
-export type GroupBy = "brand" | "category" | "type" | null
+export type GroupBy = "brand" | "category" | "product_type" | null
+
+
+// export type ProductView = Pick<ApiProduct,
+//   "id" | "name" | "brand" | "category" | "product_type" |
+//   "price" | "image_link" | "tag_list" | "product_colors"
+// >;
