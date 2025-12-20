@@ -5,7 +5,7 @@ import { productColumns } from './columns';
 const ProductsTable = ({products}: {products: Product[]}) => {
   return (
     <div>
-      <Table dataSource={products} columns={productColumns}/>
+      <Table rowKey="id" dataSource={products} columns={productColumns}/>
     </div>
   )
 }
