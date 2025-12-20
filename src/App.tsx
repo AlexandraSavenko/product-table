@@ -7,15 +7,15 @@ import ProductFilters from "./components/ProductFilters/ProductFilters";
 import { groupeProductList } from "./utils/groupeProductList";
 import Loader from "./components/Loader/Loader";
 import { getUniqueArrayOptions } from "./utils/getUniqueArrayOptions";
-import { Layout } from 'antd';
+import { Layout } from "antd";
 const { Content } = Layout;
 
 function App() {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [brands, setBrands] = useState<{value: string}[]>([]);
-  const [tags, setTags] = useState<{value: string}[]>([])
+  const [brands, setBrands] = useState<{ value: string }[]>([]);
+  const [tags, setTags] = useState<{ value: string }[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
@@ -25,15 +25,15 @@ function App() {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchProducts()
-        setAllProducts(data)
-      } catch{
-        setError("Failed to load products")
-      }finally{
-        setLoading(false)
+        const data = await fetchProducts();
+        setAllProducts(data);
+      } catch {
+        setError("Failed to load products");
+      } finally {
+        setLoading(false);
       }
-    }
-    loadProducts()
+    };
+    loadProducts();
   }, []);
   useEffect(() => {
     if (!allProducts.length) return;
@@ -41,27 +41,36 @@ function App() {
     const brandsResult = getUniqueOptions(allProducts, "brand");
     const tagsResult = getUniqueArrayOptions(allProducts, "tag_list");
     setBrands(brandsResult);
-    setTags(tagsResult)
+    setTags(tagsResult);
   }, [allProducts]);
-const visibleProducts = useMemo(() => { let result = [...allProducts]
-  result = groupeProductList(allProducts, groupBy)
-  if(selectedBrands.length){
-    result = result.filter(item => selectedBrands.includes(item.brand))
-  }
-  if(selectedTags.length){
-    result = result.filter(item => item.tag_list?.some(tag => selectedTags.includes(tag)))
-    return result;
-  }
-}, [allProducts, groupBy, selectedBrands, selectedTags])
-  
+  const visibleProducts = useMemo(() => {
+    let result = [...allProducts];
+    result = groupeProductList(allProducts, groupBy);
+    if (selectedBrands.length) {
+      result = result.filter((item) => selectedBrands.includes(item.brand));
+    }
+    if (selectedTags.length) {
+      result = result.filter((item) =>
+        item.tag_list?.some((tag) => selectedTags.includes(tag))
+      );
+      return result;
+    }
+  }, [allProducts, groupBy, selectedBrands, selectedTags]);
+
   return (
     <Layout>
       <Content style={{ padding: 20 }}>
-       {loading && <Loader/>}
-    {error && <p>{error}</p> }
-      Product-table
-      <ProductFilters groupBy={groupBy} setGroupBy={setGroupBy} brandList={brands} tagList={tags} setSelectedBrands={setSelectedBrands} setSelectedTags={setSelectedTags} />
-      <ProductsTable products={visibleProducts} /> 
+        {loading && <Loader />}
+        {error && <p>{error}</p>}
+        <ProductFilters
+          groupBy={groupBy}
+          setGroupBy={setGroupBy}
+          brandList={brands}
+          tagList={tags}
+          setSelectedBrands={setSelectedBrands}
+          setSelectedTags={setSelectedTags}
+        />
+        <ProductsTable products={visibleProducts} />
       </Content>
     </Layout>
   );

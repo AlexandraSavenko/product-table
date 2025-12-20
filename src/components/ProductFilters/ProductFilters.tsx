@@ -1,6 +1,7 @@
 import type { FilterType, GroupBy } from "../../types/products";
 import GroupBySwitchers from "../GroupBySwitchers/GroupBySwitchers";
-import SelectElement from "./SelectElement";
+import SelectFilter from "../SelectFilter/SelectFilter";
+import {Row, Col} from "antd";
 
 interface ProductFiltersProps {
   groupBy: GroupBy;
@@ -18,28 +19,19 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
   setSelectedBrands,
   setSelectedTags,
 }) => {
-
   return (
-    <>
-      <GroupBySwitchers groupBy={groupBy} setGroupBy={setGroupBy} />
-
-<ul>
-  <li><span>Select a tag</span>
-  <SelectElement
-        filterArray={tagList}
-        setSelectedFilter={setSelectedTags}
+    <Row gutter={40}>
+      <Col span={8}><GroupBySwitchers groupBy={groupBy} setGroupBy={setGroupBy} />
+      </Col>
+      <Col span={8}><SelectFilter
+        brandList={brandList}
+        tagList={tagList}
+        setSelectedBrands={setSelectedBrands}
+        setSelectedTags={setSelectedTags}
       />
-  </li>
-  <li><span>Select a brand</span>
-  <SelectElement
-        filterArray={brandList}
-        setSelectedFilter={setSelectedBrands}
-      />
-  </li>
-</ul>
+      </Col>
       
-      
-    </>
+    </Row>
   );
 };
 
