@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import type { GroupBy, Product } from "./types/products";
-import { fetchProducts } from "./api/products.api";
 import ProductsTable from "./components/ProductTable/ProductsTable";
 import { getUniqueOptions } from "./utils/getUniqueOptions";
 import ProductFilters from "./components/ProductFilters/ProductFilters";
@@ -8,6 +7,7 @@ import { groupeProductList } from "./utils/groupeProductList";
 import Loader from "./components/Loader/Loader";
 import { getUniqueArrayOptions } from "./utils/getUniqueArrayOptions";
 import { Layout } from "antd";
+import { fetchProducts } from "./api/fetchProducts";
 const { Content } = Layout;
 
 function App() {
